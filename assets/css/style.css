@@ -1,8 +1,3 @@
-/*
-essential styles:
-these make the slideshow work
-*/
-
 * {
   padding: 0;
   margin: 0;
@@ -16,13 +11,13 @@ body {
   font-family: sans-serif;
 }
 
-img {
-  pointer-events: none;
-}
-
 h1 {
   text-align: center;
 }
+
+/*
+essential styles: these make the slideshow work
+*/
 
 .carousel {
   height: 100vh;
@@ -31,6 +26,29 @@ h1 {
   align-content: center;
   justify-items: center;
   background-color: inherit;
+}
+
+.carousel * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+.carousel--loading .controls,
+.carousel--loading .indicators {
+  opacity: 0;
+}
+
+.controls,
+.indicators {
+  opacity: 1;
+  transition: all 1s ease-out 1s;
+}
+
+.carousel--loading .loading-screen {
+  opacity: 1;
 }
 
 
@@ -55,11 +73,12 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
 }
 
-.active {
+.slide--active {
   opacity: 1;
-  z-index: 2;
+  z-index: 1;
 }
 
 .controls {
@@ -73,54 +92,50 @@ h1 {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 3;
+  z-index: 2;
 }
 
 .control {
   display: grid;
   align-items: center;
-  width: 100%;
+  width: 90%;
+  margin-inline: auto;
 }
 
-.control i {
+.control * {
+  max-height: 10rem;
+  max-width: 10rem;
   font-size: 3rem;
   cursor: pointer;
   padding: 2rem;
   text-shadow: 0 0 1px black, 0 0 2px black, 0 0 3px black, 0 0 4px black, 0 0 5px #fff, 0 0 20px #fff;
 }
 
-.control-prev i,
-.control-next i {
+.control-prev *,
+.control-next *,
+.control-pause * {
+  opacity: 0.5;
   transition: all 0.5s ease-out;
 }
 
-.control-prev i:hover,
-.control-next i:hover {
-  transform: scale(1.5);
-}
-
-.control-prev i {
-  justify-self: start;
-}
-
-.control-next i {
-  justify-self: end;
-}
-
-.control-pause i {
-  justify-self: center;
-}
-
-.control-pause i {
-  opacity: 0.2;
-  transition: 5s;
-}
-
-.control-pause:hover i,
+.control-prev *:hover,
+.control-next *:hover,
+.control-pause *:hover,
 .control-pause .fa-play {
   opacity: 1;
   transform: scale(1.5);
-  transition: transform 0.5s ease-out;
+}
+
+.control-prev * {
+  justify-self: start;
+}
+
+.control-next * {
+  justify-self: end;
+}
+
+.control-pause * {
+  justify-self: center;
 }
 
 .indicators {
@@ -129,7 +144,7 @@ h1 {
   width: 100%;
   display: flex;
   justify-content: center;
-  z-index: 3;
+  z-index: 2;
 }
 
 .indicator {
@@ -154,4 +169,37 @@ h1 {
 .indicator--active {
   background-color: black;
   transform: scale(1.25);
+}
+
+.loading-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  color: white;
+  font-size: 2rem;
+  z-index: 100;
+  transition: opacity 0.5s ease-out;
+  opacity: 0;
+}
+
+.loading-screen i {
+  color: white;
+  font-size: 36px;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
